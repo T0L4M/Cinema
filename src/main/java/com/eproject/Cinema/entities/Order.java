@@ -2,6 +2,9 @@ package com.eproject.Cinema.entities;
 
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,5 +25,6 @@ public class Order extends BaseEntity {
 
       @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, mappedBy = "order")
       @Transient
+      @OnDelete(action = OnDeleteAction.CASCADE)
       private List<OrderDetail> orderDetails;
 }

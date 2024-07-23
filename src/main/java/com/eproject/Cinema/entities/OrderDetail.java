@@ -23,7 +23,7 @@ public class OrderDetail extends BaseEntity {
       @JoinColumn(referencedColumnName = "id", name = "order_id", nullable = false)
       private Order order;
 
-      @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+      @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
       @JoinColumn(referencedColumnName = "id", name = "product_id", nullable = false)
       private Product product;
 }

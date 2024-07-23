@@ -1,12 +1,17 @@
 package com.eproject.Cinema.entities;
 
 import java.sql.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +34,7 @@ public class Account extends BaseEntity {
       private String address;
       private String role;
 
-      @OneToOne(mappedBy = "customer")
-      private Booking booking;
+      @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+      @Transient
+      private List<Booking> booking;
 }

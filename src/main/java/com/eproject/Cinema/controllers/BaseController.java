@@ -16,7 +16,7 @@ public class BaseController {
      * @return
      */
     public List<ErrorDTO> getErrors(BindingResult br) {
-        List<ErrorDTO> errors = new ArrayList<>();
+        List<ErrorDTO> errors = new ArrayList();
         for (FieldError err : br.getFieldErrors()) {
             errors.add(new ErrorDTO(err.getField(), err.getDefaultMessage()));
         }

@@ -33,17 +33,14 @@ public class MovieService {
 
       public boolean delete(Long id) {
             try {
-                  Movie mv = _movieRepository.findById(id).get();
-
-                  if (mv != null) {
-                        _movieRepository.delete(mv);
+                  Movie movie = _movieRepository.findById(id).get();
+                  if (movie != null) {
+                        _movieRepository.delete(movie);
                         return true;
                   }
-                  return false;
             } catch (Exception e) {
                   e.printStackTrace();
             }
             return false;
       }
-
 }

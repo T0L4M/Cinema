@@ -1,8 +1,17 @@
 package com.eproject.Cinema.entities;
 
 import java.sql.Time;
+import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -25,6 +34,8 @@ public class Hour extends BaseEntity {
 
       private double price;
 
-      @OneToOne(mappedBy = "hour")
-      private Showtime showtime;
+      @OneToMany(mappedBy = "hour", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+      @JsonIgnore
+      @OnDelete(action = OnDeleteAction.CASCADE )
+      private List<Showtime> showtime;
 }

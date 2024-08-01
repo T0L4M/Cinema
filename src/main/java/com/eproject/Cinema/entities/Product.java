@@ -9,7 +9,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
@@ -31,5 +30,5 @@ public class Product extends BaseEntity {
       @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
       @Transient
       @OnDelete(action = OnDeleteAction.CASCADE)
-      private List<OrderDetail> orderDetail;
+      private List<OrderDetail> orderDetails;
 }

@@ -6,12 +6,13 @@ import java.util.List;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -36,11 +37,11 @@ public class Movie extends BaseEntity {
       private String poster;
       // @DateTimeFormat(pattern = "dd/MM/yyyy")
       @Temporal(TemporalType.DATE)
-      @Future(message = "Release date cannot be in the Past")
       private Date release_date;
 
       @OneToMany(mappedBy = "movie", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
       @Transient
+      @JsonIgnore
       @OnDelete(action = OnDeleteAction.CASCADE)
-      private List<Showtime> showtime;
+      private List<Showtime> showtimes;
 }

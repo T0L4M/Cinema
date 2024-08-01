@@ -6,11 +6,12 @@ import java.util.List;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -35,6 +36,7 @@ public class Hour extends BaseEntity {
 
       @OneToMany(mappedBy = "hour", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
       @Transient
+      @JsonIgnore
       @OnDelete(action = OnDeleteAction.CASCADE)
-      private List<Showtime> showtime;
+      private List<Showtime> showtimes;
 }

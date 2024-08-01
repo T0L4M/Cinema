@@ -12,6 +12,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -34,6 +35,7 @@ public class Showtime extends BaseEntity {
       @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
       @JoinColumn(referencedColumnName = "id", name = "movie_id", nullable = false)
       private Movie movie;
+
       @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
       @JoinColumn(referencedColumnName = "id", name = "auditoria_id", nullable = false)
       private Auditoria auditoria;

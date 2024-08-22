@@ -34,6 +34,9 @@ public class MovieDTO {
       private String genre;
 
       private String description;
+      @NotEmpty(message = "Status is required!")
+      private String status;
+      private String trailer;
 
       private MultipartFile poster;
 

@@ -62,6 +62,7 @@ public class ShowtimeController extends BaseController {
                         show.setHour(hour);
                         show.setAuditoria(audi);
                         show.setMovie(movie);
+                        show.setStatus(showtimeDTO.getStatus());
                         Showtime rs = _showtimeService.create(show);
                         if (rs != null) {
                               return _httpResponse.success(rs);
@@ -103,6 +104,7 @@ public class ShowtimeController extends BaseController {
                   Showtime show = _showtimeService.detail(id);
                   if (show != null) {
                         show.setShowtime_date(showtimeDTO.getShowtime_date());
+                        show.setStatus(showtimeDTO.getStatus());
                         show.setHour(hour);
                         show.setAuditoria(audi);
                         show.setMovie(movie);

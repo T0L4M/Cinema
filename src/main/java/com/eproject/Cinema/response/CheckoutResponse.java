@@ -18,5 +18,4 @@ public class CheckoutResponse {
       private String seatCheck;
       private double amount;
       private List<ProductDetail> productDetails;
-
 }

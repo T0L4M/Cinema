@@ -14,11 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CheckoutRequest {
       @NotEmpty(message = "Seat Booking List is required!")
-      private List<String> seat_book;
+      private List<String> seatBookingList;
       private Map<Long, Integer> productQuantities;
       private List<Long> productList;
-
       @Min(value = 0, message = "CustomerId is required!")
-      private Long customer_id;
-      private Long showtime_id;
+      private Long customerId;
+      private Long showtimeId;
 }

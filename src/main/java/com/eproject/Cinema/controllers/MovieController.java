@@ -91,7 +91,7 @@ public class MovieController extends BaseController {
             }
             Movie movie = _movieService.detail(id);
             if (movie != null) {
-                  if (!file.isEmpty()) {
+                  if (!file.isEmpty() && file != null) {
                         try {
                               mv.setPoster(file);
                               Path path = Paths.get(uploadDir, "movies");

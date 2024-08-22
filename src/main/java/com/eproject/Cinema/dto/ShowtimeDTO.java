@@ -29,4 +29,8 @@ public class ShowtimeDTO {
   private Long auditoria_id;
 
   private Long hour_id;
+
+  public boolean getStatus() {
+    return this.status;
+  }
 }

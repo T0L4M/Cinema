@@ -7,5 +7,4 @@ import com.eproject.Cinema.entities.Movie;
 
 @Component
 public interface MovieRepository extends JpaRepository<Movie, Long> {
-
 }

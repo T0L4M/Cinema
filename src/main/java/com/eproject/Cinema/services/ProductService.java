@@ -51,4 +51,17 @@ public class ProductService {
             }
             return false;
       }
+
+      public List<Product> findSellingProducts() {
+            return _productRepository.findByStatus(true);
+      }
+
+      public List<Product> findFood() {
+            return _productRepository.findByType("food");
+      }
+
+      public List<Product> findDrink() {
+            return _productRepository.findByType("drink");
+      }
+
 }

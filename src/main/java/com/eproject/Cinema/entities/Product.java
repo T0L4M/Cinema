@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 public class Product extends BaseEntity {
       private String name;
       private String image;
-      private String type;
+      private String type; // Value as: food, drink
       private double price;
       private boolean status;
 

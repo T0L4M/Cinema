@@ -78,6 +78,21 @@ public class ProductController extends BaseController {
             return _httpResponse.success(_productService.getAll());
       }
 
+      @GetMapping("/selling")
+      public ResponseEntity<?> getSellingProducts() {
+            return _httpResponse.success(_productService.findSellingProducts());
+      }
+
+      @GetMapping("/food")
+      public ResponseEntity<?> getFoodProducts() {
+            return _httpResponse.success(_productService.findFood());
+      }
+
+      @GetMapping("/drink")
+      public ResponseEntity<?> getDrinkProducts() {
+            return _httpResponse.success(_productService.findDrink());
+      }
+
       @PutMapping(path = "edit/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
       public ResponseEntity<?> update(@PathVariable Long id, @Valid ProductDTO productDTO,
                   @RequestParam(name = "image", required = false) MultipartFile file, BindingResult br) {

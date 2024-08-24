@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "tb_orders")
 public class Order extends BaseEntity {
+      
       private double amount;
 
       @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, mappedBy = "order")

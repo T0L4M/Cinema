@@ -7,5 +7,6 @@ import com.eproject.Cinema.entities.Account;
 
 @Component
 public interface AccountRepository extends JpaRepository<Account, Long> {
-
+    public Account findByAccount(String account);
+    
 }

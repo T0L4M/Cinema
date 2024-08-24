@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eproject.Cinema.dto.AccountDTO;
-import com.eproject.Cinema.dto.HourDTO;
 import com.eproject.Cinema.entities.Account;
-import com.eproject.Cinema.entities.Hour;
 import com.eproject.Cinema.response.HttpResponse;
 import com.eproject.Cinema.services.AccountService;
 
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -87,12 +84,29 @@ public class AccountController extends BaseController {
       }
 
       @DeleteMapping("delete/{id}")
-      public ResponseEntity<?> delHour(@PathVariable Long id) {
+      public ResponseEntity<?> delAcc(@PathVariable Long id) {
             boolean status = _accountService.delete(id);
             if (status) {
                   return _httpResponse.success();
             }
             return _httpResponse.failure();
+      }
+
+      @PostMapping("login")
+      public ResponseEntity<?> login(@PathVariable @Valid Account account, BindingResult br) throws Exception {
+            try {
+                  if (br.hasErrors()) {
+                        return _httpResponse.unprocessable(getErrors(br));
+                  }
+                  String resq = _accountService.login(account);
+                  if (resq != null) {
+                        return _httpResponse.success(resq);
+                  } 
+                  return _httpResponse.failure();
+            } catch (Exception e) {
+                  return _httpResponse.failure();
+
+            }
       }
 
 }

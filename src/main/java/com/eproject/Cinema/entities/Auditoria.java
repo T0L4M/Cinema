@@ -5,6 +5,8 @@ import java.util.List;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,6 +28,7 @@ public class Auditoria extends BaseEntity {
       private int rowNum;
 
       @OneToMany(mappedBy = "auditoria", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+      @JsonIgnore
       @Transient
       @OnDelete(action = OnDeleteAction.CASCADE)
       private List<Showtime> showtime;

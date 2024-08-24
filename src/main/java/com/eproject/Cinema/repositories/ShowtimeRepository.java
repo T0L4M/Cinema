@@ -12,9 +12,6 @@ import com.eproject.Cinema.entities.Showtime;
 
 @Component
 public interface ShowtimeRepository extends JpaRepository<Showtime, Long> {
-      // @Query("SELECT s FROM Showtime s WHERE s.movieTitle = :movieTitle AND s.suat
-      // = :suat AND s.showtimeDate = :showtimeDate")
-      // Showtime findByMovieTitleAndSuatAndShowtimeDate(@Param("movieTitle") String
-      // movieTitle,
-      // @Param("suat") String suat, @Param("showtimeDate") LocalDate showtimeDate);
+      @Query("SELECT s FROM Showtime s ORDER BY showtime_date ASC, s.hour.time_from ASC")
+      public List<Showtime> sortByDate();
 }

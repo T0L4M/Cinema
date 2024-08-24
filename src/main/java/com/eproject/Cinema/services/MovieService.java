@@ -43,4 +43,12 @@ public class MovieService {
             }
             return false;
       }
+
+      public List<Movie> findShowingMovies() {
+            return _movieRepository.findByStatus("Showing");
+      }
+
+      public List<Movie> findComingMovies() {
+            return _movieRepository.findByStatus("Coming");
+      }
 }

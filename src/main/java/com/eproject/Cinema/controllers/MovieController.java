@@ -82,6 +82,16 @@ public class MovieController extends BaseController {
             return _httpResponse.success(_movieService.getAll());
       }
 
+      @GetMapping("/showing")
+      public ResponseEntity<?> getShowingMovies() {
+            return _httpResponse.success(_movieService.findShowingMovies());
+      }
+
+      @GetMapping("/coming")
+      public ResponseEntity<?> getComingMovies() {
+            return _httpResponse.success(_movieService.findComingMovies());
+      }
+
       @PutMapping(path = "edit/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
       public ResponseEntity<?> update(@PathVariable Long id, @Valid MovieDTO mv,
                   @RequestParam(name = "image", required = false) MultipartFile file, BindingResult br) {
@@ -91,7 +101,7 @@ public class MovieController extends BaseController {
             }
             Movie movie = _movieService.detail(id);
             if (movie != null) {
-                  if (!file.isEmpty()) {
+                  if (!file.isEmpty() && file != null) {
                         try {
                               mv.setPoster(file);
                               Path path = Paths.get(uploadDir, "movies");

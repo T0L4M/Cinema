@@ -35,6 +35,8 @@ public class Movie extends BaseEntity {
       @Column(columnDefinition = "text")
       private String description;
       private String poster;
+      private String status; // Value as: showing, coming, not showing
+      private String trailer;
       // @DateTimeFormat(pattern = "dd/MM/yyyy")
       @Temporal(TemporalType.DATE)
       private Date release_date;

@@ -62,6 +62,7 @@ public class ShowtimeController extends BaseController {
                         show.setHour(hour);
                         show.setAuditoria(audi);
                         show.setMovie(movie);
+                        show.setStatus(showtimeDTO.getStatus());
                         Showtime rs = _showtimeService.create(show);
                         if (rs != null) {
                               return _httpResponse.success(rs);
@@ -79,6 +80,11 @@ public class ShowtimeController extends BaseController {
       @GetMapping()
       public ResponseEntity<?> getList() {
             return _httpResponse.success(_showtimeService.getAll());
+      }
+
+      @GetMapping("/show")
+      public ResponseEntity<?> getSortDateList() {
+            return _httpResponse.success(_showtimeService.sortByDate());
       }
 
       @GetMapping("detail/{id}")
@@ -103,6 +109,7 @@ public class ShowtimeController extends BaseController {
                   Showtime show = _showtimeService.detail(id);
                   if (show != null) {
                         show.setShowtime_date(showtimeDTO.getShowtime_date());
+                        show.setStatus(showtimeDTO.getStatus());
                         show.setHour(hour);
                         show.setAuditoria(audi);
                         show.setMovie(movie);

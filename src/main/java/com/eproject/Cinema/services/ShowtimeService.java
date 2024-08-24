@@ -53,4 +53,8 @@ public class ShowtimeService {
             }
             return false;
       }
+
+      public List<Showtime> sortByDate() {
+            return _showtimeRepository.sortByDate();
+      }
 }

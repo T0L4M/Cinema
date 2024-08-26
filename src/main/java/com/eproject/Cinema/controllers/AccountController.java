@@ -1,5 +1,7 @@
 package com.eproject.Cinema.controllers;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eproject.Cinema.dto.AccountDTO;
+import com.eproject.Cinema.dto.ErrorDTO;
 import com.eproject.Cinema.dto.HourDTO;
-import com.eproject.Cinema.entities.Account;
+import com.eproject.Cinema.dto.LoginDTO;
+import com.eproject.Cinema.entities.User;
 import com.eproject.Cinema.entities.Hour;
 import com.eproject.Cinema.response.HttpResponse;
 import com.eproject.Cinema.services.AccountService;
@@ -33,22 +37,40 @@ public class AccountController extends BaseController {
       @Autowired
       HttpResponse _httpResponse;
 
-      @PostMapping()
-      public ResponseEntity<?> create(@Valid @RequestBody AccountDTO accountDTO, BindingResult br) {
+      @PostMapping("/login")
+      public ResponseEntity<?> login(@RequestBody @Valid LoginDTO loginReq, BindingResult br)
+                  throws Exception {
+
             try {
                   if (br.hasErrors()) {
                         return _httpResponse.unprocessable(getErrors(br));
                   }
-                  Account acc = new Account();
-                  BeanUtils.copyProperties(accountDTO, acc);
-                  Account rs = _accountService.create(acc);
-                  if (rs != null) {
-                        return _httpResponse.success();
+
+                  String resq = _accountService.login(loginReq);
+                  if (resq != null) {
+                        return _httpResponse.success(resq);
                   }
                   return _httpResponse.failure();
             } catch (Exception e) {
                   return _httpResponse.failure();
             }
+      }
+
+      @PostMapping("/register")
+      public ResponseEntity<?> register(@Valid @RequestBody AccountDTO userRequest, BindingResult br) {
+            if (br.hasErrors()) {
+                  return _httpResponse.unprocessable(getErrors(br));
+            }
+
+            User user = new User();
+            BeanUtils.copyProperties(userRequest, user);
+            // Write mapping class
+            User rs = _accountService.create(user);
+            if (rs != null) {
+                  return _httpResponse.success(rs);
+            }
+
+            return _httpResponse.failure();
       }
 
       @GetMapping()
@@ -58,7 +80,7 @@ public class AccountController extends BaseController {
 
       @GetMapping("detail/{id}")
       public ResponseEntity<?> detail(@PathVariable Long id) {
-            Account hr = _accountService.detail(id);
+            User hr = _accountService.detail(id);
             if (hr != null) {
                   return _httpResponse.success(hr);
             }
@@ -72,10 +94,10 @@ public class AccountController extends BaseController {
                   if (br.hasErrors()) {
                         return _httpResponse.unprocessable(getErrors(br));
                   }
-                  Account account = _accountService.detail(id);
+                  User account = _accountService.detail(id);
                   if (account != null) {
                         BeanUtils.copyProperties(accountDTO, account);
-                        Account rs = _accountService.update(account);
+                        User rs = _accountService.update(account);
                         if (rs != null) {
                               return _httpResponse.success(rs);
                         }

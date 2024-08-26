@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eproject.Cinema.dto.BookingDTO;
 import com.eproject.Cinema.dto.ErrorDTO;
 import com.eproject.Cinema.dto.ShowtimeDTO;
-import com.eproject.Cinema.entities.Account;
+import com.eproject.Cinema.entities.User;
 import com.eproject.Cinema.entities.Auditoria;
 import com.eproject.Cinema.entities.Booking;
 import com.eproject.Cinema.entities.Hour;
@@ -52,7 +52,7 @@ public class BookingController extends BaseController {
                   if (br.hasErrors()) {
                         return _httpResponse.unprocessable(getErrors(br));
                   }
-                  Account account = _accountService.detail(bookingDTO.getCustomer_id());
+                  User account = _accountService.detail(bookingDTO.getCustomer_id());
                   Showtime showtime = _showtimeService.detail(bookingDTO.getShowtime_id());
                   if (account != null && showtime != null) {
                         Booking booking = new Booking();
@@ -95,7 +95,7 @@ public class BookingController extends BaseController {
                   if (br.hasErrors()) {
                         return _httpResponse.unprocessable(getErrors(br));
                   }
-                  Account account = _accountService.detail(bookingDTO.getCustomer_id());
+                  User account = _accountService.detail(bookingDTO.getCustomer_id());
                   Showtime showtime = _showtimeService.detail(bookingDTO.getShowtime_id());
                   Booking booking = _bookingService.detail(id);
                   if (booking != null) {

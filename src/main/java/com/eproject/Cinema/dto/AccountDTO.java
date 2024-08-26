@@ -2,6 +2,7 @@ package com.eproject.Cinema.dto;
 
 import java.sql.Date;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,13 +13,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AccountDTO {
 
-    @NotEmpty(message = "Name is required!")
-    private String name;
+    @NotEmpty(message = "userName is required!")
+    private String userName;
 
     @NotEmpty(message = "Password is required!")
     private String password;
 
     @NotEmpty(message = "Email is required!")
+    @Email(message = "Invalid Email Format")
     private String email;
 
     private boolean gender;

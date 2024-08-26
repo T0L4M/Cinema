@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
@@ -24,8 +25,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "tb_accounts")
-public class Account extends BaseEntity {
-      private String name;
+public class User extends BaseEntity {
+      @Column(name = "user_name")
+      private String userName;
       private String password;
       private String email;
       private boolean gender;
@@ -35,7 +37,7 @@ public class Account extends BaseEntity {
       private Date dob;
 
       private String address;
-      private String role;
+      private String role; // Values as USER, ADMIN
 
       @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
       @Transient

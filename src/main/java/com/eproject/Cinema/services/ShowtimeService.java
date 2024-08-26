@@ -57,4 +57,8 @@ public class ShowtimeService {
       public List<Showtime> sortByDate() {
             return _showtimeRepository.sortByDate();
       }
+
+      // public boolean validate(){
+
+      // }
 }

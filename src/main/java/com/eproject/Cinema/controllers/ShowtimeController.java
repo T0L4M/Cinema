@@ -53,9 +53,16 @@ public class ShowtimeController extends BaseController {
                   if (br.hasErrors()) {
                         return _httpResponse.unprocessable(getErrors(br));
                   }
+                  //validate
+                  // if (_showtimeService.validate(showtimeDTO)) {
+                  //       return _httpResponse.error();
+                        
+                  // }
+
                   Movie movie = _movieService.detail(showtimeDTO.getMovie_id());
                   Auditoria audi = _auditoriaService.detail(showtimeDTO.getAuditoria_id());
                   Hour hour = _hourService.detail(showtimeDTO.getHour_id());
+
                   if (movie != null && audi != null && hour != null) {
                         Showtime show = new Showtime();
                         show.setShowtime_date(showtimeDTO.getShowtime_date());
@@ -63,10 +70,13 @@ public class ShowtimeController extends BaseController {
                         show.setAuditoria(audi);
                         show.setMovie(movie);
                         show.setStatus(showtimeDTO.getStatus());
+
                         Showtime rs = _showtimeService.create(show);
+
                         if (rs != null) {
                               return _httpResponse.success(rs);
                         }
+
                         return _httpResponse.failure();
                   }
                   List<ErrorDTO> errors = new ArrayList();
@@ -81,6 +91,12 @@ public class ShowtimeController extends BaseController {
       public ResponseEntity<?> getList() {
             return _httpResponse.success(_showtimeService.getAll());
       }
+
+      @GetMapping("/room/{id}")
+      public ResponseEntity<?> getRoom(@PathVariable Long id) {
+            return _httpResponse.success(_showtimeService.getByRoom(id));
+      }
+
 
       @GetMapping("/show")
       public ResponseEntity<?> getSortDateList() {
@@ -132,4 +148,7 @@ public class ShowtimeController extends BaseController {
       // }
       // return _httpResponse.failure();
       // }
+
+     
+      
 }

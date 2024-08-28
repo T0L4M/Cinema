@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -27,9 +28,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_hours")
 public class Hour extends BaseEntity {
       @Temporal(TemporalType.TIME)
+      @JsonFormat(pattern = "HH:mm:ss")
       private Time time_from;
 
       @Temporal(TemporalType.TIME)
+      @JsonFormat(pattern = "HH:mm:ss")
       private Time time_to;
 
       private double price;

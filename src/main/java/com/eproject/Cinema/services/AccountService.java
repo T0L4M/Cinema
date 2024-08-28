@@ -76,6 +76,7 @@ public class AccountService {
 
       public User update(User item) {
             try {
+                  item.setPassword(passwordEncoder.encode(item.getPassword()));
                   return _accountRepository.save(item);
             } catch (Exception e) {
                   e.printStackTrace();
@@ -96,5 +97,26 @@ public class AccountService {
                   e.printStackTrace();
             }
             return false;
+      }
+
+      public String login(User acc) throws Exception {
+            try {
+                  Authentication authentication = authenticationManager
+                              .authenticate(new UsernamePasswordAuthenticationToken(acc.getEmail(),
+                              acc.getPassword()));
+                  SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                  String user = authentication.getName();
+                  User acct = _accountRepository.findByUserName(user);
+
+                  return jwtUtil.generateToken(acct);
+
+            } catch (Exception e) {
+                  throw new Exception("Email or password incorrect");
+            }
+      }
+
+      public User getByEmail(String email) {
+            return _accountRepository.findByEmail(email);
       }
 }

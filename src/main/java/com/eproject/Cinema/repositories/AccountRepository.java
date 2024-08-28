@@ -8,4 +8,6 @@ import com.eproject.Cinema.entities.User;
 @Component
 public interface AccountRepository extends JpaRepository<User, Long> {
       public User findByUserName(String userName);
+      public User findByEmail(String email);
+      
 }

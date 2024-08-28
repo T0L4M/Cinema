@@ -1,6 +1,5 @@
 package com.eproject.Cinema.repositories;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +13,10 @@ import com.eproject.Cinema.entities.Showtime;
 public interface ShowtimeRepository extends JpaRepository<Showtime, Long> {
       @Query("SELECT s FROM Showtime s ORDER BY showtime_date ASC, s.hour.time_from ASC")
       public List<Showtime> sortByDate();
+
+
+      @Query("SELECT s FROM Showtime s WHERE s.auditoria.id = :roomId ")
+      public List<Showtime> getByRoom(@Param("roomId") Long roomId);
+
+     
 }

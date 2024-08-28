@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eproject.Cinema.dto.AuditoriaDTO;
-import com.eproject.Cinema.dto.HourDTO;
 import com.eproject.Cinema.entities.Auditoria;
-import com.eproject.Cinema.entities.Hour;
 import com.eproject.Cinema.response.HttpResponse;
 import com.eproject.Cinema.services.AuditoriaService;
 
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/auditorias")

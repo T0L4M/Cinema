@@ -13,6 +13,7 @@ public class AuditoriaService {
       @Autowired
       AuditoriaRepository _auditoriaRepository;
 
+
       public List<Auditoria> getAll() {
             return _auditoriaRepository.findAll();
       }
@@ -76,4 +77,6 @@ public class AuditoriaService {
             return seatCode.length() == 2 && Character.isDigit(seatCode.charAt(1))
                         && Character.isLetter(seatCode.charAt(0));
       }
+
+      
 }

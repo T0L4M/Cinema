@@ -32,4 +32,6 @@ public class Auditoria extends BaseEntity {
       @Transient
       @OnDelete(action = OnDeleteAction.CASCADE)
       private List<Showtime> showtime;
+
+      
 }

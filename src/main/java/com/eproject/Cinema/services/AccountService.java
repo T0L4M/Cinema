@@ -7,13 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-<<<<<<< HEAD
-import org.springframework.stereotype.Service;
-
-import com.eproject.Cinema.entities.Account;
-import com.eproject.Cinema.repositories.AccountRepository;
-import com.eproject.Cinema.utils.JwtUtils;
-=======
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +14,6 @@ import com.eproject.Cinema.dto.LoginDTO;
 import com.eproject.Cinema.entities.User;
 import com.eproject.Cinema.repositories.AccountRepository;
 import com.eproject.Cinema.utils.JwtUtil;
->>>>>>> 9abcf7b42e08eb1a106701d780a74d910e8a2ac6
 
 @Service
 public class AccountService {
@@ -29,18 +21,11 @@ public class AccountService {
       AccountRepository _accountRepository;
 
       @Autowired
-<<<<<<< HEAD
-      JwtUtils jwtUtil;
-=======
       private PasswordEncoder passwordEncoder;
->>>>>>> 9abcf7b42e08eb1a106701d780a74d910e8a2ac6
 
       @Autowired
       private AuthenticationManager authenticationManager;
 
-<<<<<<< HEAD
-      public List<Account> getAll() {
-=======
       @Autowired
       JwtUtil jwtUtil;
 
@@ -48,7 +33,6 @@ public class AccountService {
       // MailRegisterUserComplete mailRegisterUserComplete;
 
       public List<User> getAll() {
->>>>>>> 9abcf7b42e08eb1a106701d780a74d910e8a2ac6
             return _accountRepository.findAll();
       }
 
@@ -92,6 +76,7 @@ public class AccountService {
 
       public User update(User item) {
             try {
+                  item.setPassword(passwordEncoder.encode(item.getPassword()));
                   return _accountRepository.save(item);
             } catch (Exception e) {
                   e.printStackTrace();
@@ -114,20 +99,24 @@ public class AccountService {
             return false;
       }
 
-      public String login(Account acc) throws Exception {
+      public String login(User acc) throws Exception {
             try {
                   Authentication authentication = authenticationManager
                               .authenticate(new UsernamePasswordAuthenticationToken(acc.getEmail(),
                               acc.getPassword()));
                   SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                  String account = authentication.getName();
-                  Account acct = _accountRepository.findByAccount(account);
+                  String user = authentication.getName();
+                  User acct = _accountRepository.findByUserName(user);
 
                   return jwtUtil.generateToken(acct);
 
             } catch (Exception e) {
                   throw new Exception("Email or password incorrect");
             }
+      }
+
+      public User getByEmail(String email) {
+            return _accountRepository.findByEmail(email);
       }
 }

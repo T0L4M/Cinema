@@ -1,7 +1,5 @@
 package com.eproject.Cinema.controllers;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,17 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eproject.Cinema.dto.AccountDTO;
-<<<<<<< HEAD
-import com.eproject.Cinema.entities.Account;
-=======
-import com.eproject.Cinema.dto.ErrorDTO;
-import com.eproject.Cinema.dto.HourDTO;
 import com.eproject.Cinema.dto.LoginDTO;
 import com.eproject.Cinema.entities.User;
-import com.eproject.Cinema.entities.Hour;
->>>>>>> 9abcf7b42e08eb1a106701d780a74d910e8a2ac6
+import com.eproject.Cinema.entities.Verification;
+import com.eproject.Cinema.filter.PasswordGenerator;
+import com.eproject.Cinema.request.ForgotRequest;
+import com.eproject.Cinema.request.MailRequest;
 import com.eproject.Cinema.response.HttpResponse;
 import com.eproject.Cinema.services.AccountService;
+import com.eproject.Cinema.services.VerificationService;
 
 import jakarta.validation.Valid;
 
@@ -39,6 +35,9 @@ public class AccountController extends BaseController {
 
       @Autowired
       HttpResponse _httpResponse;
+
+      @Autowired
+      VerificationService _verificationService;
 
       @PostMapping("/login")
       public ResponseEntity<?> login(@RequestBody @Valid LoginDTO loginReq, BindingResult br)
@@ -120,20 +119,46 @@ public class AccountController extends BaseController {
             return _httpResponse.failure();
       }
 
-      @PostMapping("login")
-      public ResponseEntity<?> login(@PathVariable @Valid Account account, BindingResult br) throws Exception {
+      @PostMapping("send_mail")
+      public ResponseEntity<?> sendMail(@Valid @RequestBody MailRequest mailRequest, BindingResult br) {
+
+            if (br.hasErrors()) {
+                  return _httpResponse.unprocessable(getErrors(br));
+            }
+
+            boolean status = _verificationService.create(mailRequest.getEmail());
+
+            if (status) {
+                  return _httpResponse.success();
+            }
+
+            return _httpResponse.failure();
+      }
+
+      @PostMapping("forgot")
+      public ResponseEntity<?> forgotPass(@Valid @RequestBody ForgotRequest forgotRequest,
+                  BindingResult br) {
             try {
                   if (br.hasErrors()) {
                         return _httpResponse.unprocessable(getErrors(br));
                   }
-                  String resq = _accountService.login(account);
-                  if (resq != null) {
-                        return _httpResponse.success(resq);
-                  } 
-                  return _httpResponse.failure();
-            } catch (Exception e) {
+
+                  boolean isVerify = _verificationService.verifyToken(
+                              forgotRequest.getCode());
+
+                  if (!isVerify) {
+                        return _httpResponse.unprocessable(getErrors(br));
+                  }
+
+                  boolean rs = _verificationService.changePassword(forgotRequest.getCode());
+                  if (rs) {
+
+                        return _httpResponse.success();
+                  }
                   return _httpResponse.failure();
 
+            } catch (Exception e) {
+                  return _httpResponse.failure();
             }
       }
 

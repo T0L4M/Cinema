@@ -26,7 +26,7 @@ public class BookingService {
             return null;
       }
 
-      public Booking detail(Long id){
+      public Booking detail(Long id) {
             return _bookingRepository.findById(id).get();
       }
 
@@ -51,5 +51,9 @@ public class BookingService {
                   e.printStackTrace();
             }
             return false;
+      }
+
+      public List<Booking> getAllByShowtimeId(Long showtimeId) {
+            return _bookingRepository.findByShowtimeId(showtimeId);
       }
 }

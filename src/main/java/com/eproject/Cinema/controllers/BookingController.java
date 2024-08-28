@@ -79,6 +79,11 @@ public class BookingController extends BaseController {
             return _httpResponse.success(_bookingService.getAll());
       }
 
+      @GetMapping("/byShowtime/{id}")
+      public ResponseEntity<?> getListByShowtimeId(@PathVariable Long id) {
+            return _httpResponse.success(_bookingService.getAllByShowtimeId(id));
+      }
+
       @GetMapping("detail/{id}")
       public ResponseEntity<?> detail(@PathVariable Long id) {
             Booking book = _bookingService.detail(id);

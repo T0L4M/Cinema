@@ -23,6 +23,6 @@ public class Payment extends BaseEntity {
       private Booking booking;
 
       @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-      @JoinColumn(referencedColumnName = "id", name = "order_id", nullable = false)
+      @JoinColumn(referencedColumnName = "id", name = "order_id", nullable = true)
       private Order order;
 }

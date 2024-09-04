@@ -1,153 +1,118 @@
-// package com.eproject.Cinema.controllers;
+package com.eproject.Cinema.controllers;
 
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.util.Map;
-// import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-// import org.springframework.beans.BeanUtils;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.validation.BindingResult;
-// import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.RequestBody;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-// import com.eproject.Cinema.dto.CheckoutRequest;
-// import com.eproject.Cinema.dto.HourDTO;
-// import com.eproject.Cinema.dto.ProductDetail;
-// import com.eproject.Cinema.entities.Hour;
-// import com.eproject.Cinema.entities.Order;
-// import com.eproject.Cinema.entities.OrderDetail;
-// import com.eproject.Cinema.entities.Product;
-// import com.eproject.Cinema.entities.Showtime;
-// import com.eproject.Cinema.response.CheckoutResponse;
-// import com.eproject.Cinema.response.HttpResponse;
-// import com.eproject.Cinema.services.OrderDetailService;
-// import com.eproject.Cinema.services.OrderService;
-// import com.eproject.Cinema.services.ProductService;
-// import com.eproject.Cinema.services.ShowtimeService;
+import com.eproject.Cinema.dto.CheckoutRequest;
+import com.eproject.Cinema.entities.Booking;
+import com.eproject.Cinema.entities.Order;
+import com.eproject.Cinema.entities.OrderDetail;
+import com.eproject.Cinema.entities.Product;
+import com.eproject.Cinema.entities.Showtime;
+import com.eproject.Cinema.entities.User;
+import com.eproject.Cinema.response.HttpResponse;
+import com.eproject.Cinema.services.AccountService;
+import com.eproject.Cinema.services.BookingService;
+import com.eproject.Cinema.services.OrderDetailService;
+import com.eproject.Cinema.services.OrderService;
+import com.eproject.Cinema.services.ProductService;
+import com.eproject.Cinema.services.ShowtimeService;
 
-// import jakarta.validation.Valid;
+import jakarta.validation.Valid;
 
-// @RestController
-// @RequestMapping("/orders")
-// public class OrderController extends BaseController {
-// @Autowired
-// OrderService _orderService;
-// @Autowired
-// OrderDetailService _orderDetailService;
+@RestController
+@RequestMapping("/orders")
+public class OrderController extends BaseController {
+      @Autowired
+      OrderService _orderService;
+      @Autowired
+      OrderDetailService _orderDetailService;
 
-// @Autowired
-// ProductService _productService;
+      @Autowired
+      ProductService _productService;
 
-// @Autowired
-// ShowtimeService _showtimeService;
+      @Autowired
+      ShowtimeService _showtimeService;
 
-// @Autowired
-// HttpResponse _httpResponse;
+      @Autowired
+      BookingService _bookingService;
 
-// @PostMapping()
-// public ResponseEntity<?> create(@Valid @RequestBody CheckoutRequest request,
-// BindingResult br) {
-// try {
-// if (br.hasErrors()) {
-// return _httpResponse.unprocessable(getErrors(br));
-// }
-// // 1. Validate Showtime and Seats
-// Showtime showtime = _showtimeService.detail(request.getShowtimeId());
-// if (showtime == null) {
-// return ResponseEntity.badRequest().body("Invalid showtime ID");
-// }
+      @Autowired
+      AccountService _accountService;
 
-// List<ProductDetail> bimbims = new ArrayList<>();
-// if (!request.getProductList().isEmpty()) {
-// List<Product> snacks = new ArrayList<>();
-// for (Long productId : request.getProductList()) {
-// Product snack = _productService.detail(productId);
-// snacks.add(snack);
-// }
-// Order order = new Order();
-// _orderService.create(order);
+      @Autowired
+      HttpResponse _httpResponse;
 
-// for (Map.Entry<Long, Integer> entry :
-// request.getProductQuantities().entrySet()) {
-// Product snack = snacks.stream().filter(p ->
-// p.getId().equals(entry.getKey())).findFirst()
-// .orElse(null);
-// if (snack != null) {
-// OrderDetail orderDetail = new OrderDetail();
-// orderDetail.setOrder(order);
-// orderDetail.setProduct(snack);
-// orderDetail.setProduct_quantity(entry.getValue());
-// _orderDetailService.create(orderDetail);
-// }
-// }
+      @PostMapping("/allCreate")
+      public ResponseEntity<?> create(@Valid @RequestBody CheckoutRequest request,
+                  BindingResult br) {
+            try {
+                  if (br.hasErrors()) {
+                        return _httpResponse.unprocessable(getErrors(br));
+                  }
+                  List<OrderDetail> bimbims = new ArrayList<>();
+                  Order order = new Order();
+                  if (!request.getProductList().isEmpty()) {
+                        _orderService.create(order);
+                        List<Product> snacks = new ArrayList<>();
+                        for (Long productId : request.getProductList()) {
+                              Product snack = _productService.detail(productId);
+                              snacks.add(snack);
+                        }
+                        for (Map.Entry<Long, Integer> entry : request.getProductQuantities().entrySet()) {
+                              Product snack = snacks.stream().filter(p -> p.getId().equals(entry.getKey())).findFirst()
+                                          .orElse(null);
+                              if (snack != null) {
+                                    OrderDetail orderDetail = new OrderDetail();
+                                    orderDetail.setOrder(order);
+                                    orderDetail.setProduct(snack);
+                                    orderDetail.setProduct_quantity(entry.getValue());
+                                    _orderDetailService.create(orderDetail);
+                              }
+                        }
+                        double productAmount = 0;
+                        for (Product snack : snacks) {
+                              OrderDetail od = _orderDetailService.findByOrderIdAndProductId(order.getId(),
+                                          snack.getId());
+                              productAmount += (od.getProduct_quantity() * od.getProduct().getPrice());
+                              bimbims.add(od);
+                        }
+                        order.setOrderDetails(bimbims);
+                        order.setAmount(productAmount);
+                        _orderService.update(order);
 
-// for (Product snack : snacks) {
-// List<ProductDetail> details = _orderDetailService
-// .findByOrderIdAndProductId(order.getId(), snack.getId())
-// .stream()
-// .map(od -> new ProductDetail(snack, od.getId(),
-// od.getProduct_quantity()))
-// .collect(Collectors.toList());
-// if (!details.isEmpty()) {
-// bimbims.addAll(details);
-// }
-// }
+                  }
+                  Showtime showtime = _showtimeService.detail(request.getShowtimeId());
+                  if (showtime == null) {
+                        return _httpResponse.failure("INVALID SHOWTIME ID");
+                  }
+                  int seatTotal = request.getSeatBookingList().size();
+                  String seatCheck = String.join(" ", request.getSeatBookingList());
+                  double seatAmount = showtime.getHour().getPrice() * seatTotal;
+                  User customer = _accountService.detail(request.getCustomerId());
+                  Booking book = new Booking(seatAmount, seatCheck, seatTotal, showtime, customer);
+                  Booking rs = _bookingService.create(book);
+                  if (rs != null) {
+                        if (!request.getProductList().isEmpty()) {
+                              return _httpResponse.success(order);
+                        }
+                        return _httpResponse.success(rs);
+                  }
 
-// }
+            } catch (Exception e) {
+                  return _httpResponse.failure();
+            }
+            return _httpResponse.failure();
 
-// Showtime showtime =
-// _showtimeService.findShowtimeByMovieTitleAndSuatAndShowtimeDate(
-// request.getBookTitle(), request.getBookSuat(), request.getBookShowdate());
+      }
 
-// int seatTotal = request.getSeatCheck().size();
-// String seatCheck = String.join(" ", request.getSeatCheck());
-// // String convertSeat = // Call NhanvienController's convertSeats method
-// // (implement logic here)
-
-// double amount = showtime.getPrice() * seatTotal;
-
-// CheckoutResponse checkoutResponse = new CheckoutResponse(
-// showtime, seatTotal, seatCheck, amount, bimbims);
-
-// return ResponseEntity.ok(checkoutResponse);
-// } catch (Exception e) {
-// return _httpResponse.failure();
-// }
-// // // 2. Create Order
-// // Order order = orderService.create(new Order(request.getCustomerId()));
-
-// // // 3. Process Products (if any)
-// // List<ProductDetail> productDetails = new ArrayList<>();
-// // if (!request.getProductList().isEmpty()) {
-// // for (Long productId : request.getProductList()) {
-// // Product product = productService.findById(productId);
-// // if (product != null) {
-// // OrderDetail orderDetail = new OrderDetail(order, product,
-// // request.getProductQuantities().get(productId));
-// // orderDetailService.create(orderDetail);
-// // productDetails.add(new ProductDetail(product, orderDetail.getId(),
-// // orderDetail.getProductQuantity()));
-// // } else {
-// // return ResponseEntity.badRequest().body("Invalid product ID: "
-// +productId);
-// // }
-// // }
-// // }
-
-// // // 4. Calculate Total Amount
-// // double amount = orderService.calculateTotalAmount(order.getId());
-
-// // // 5. Build Response
-// // return ResponseEntity.ok(new CheckoutResponse(showtime,
-// // request.getSeatBookingList().size(),
-// // String.join(",", request.getSeatBookingList()),
-// // amount,
-// // productDetails));
-
-// }
-
-// }
+}

@@ -15,6 +15,8 @@ public class BookingDTO {
 
     private int quantity;
 
+    private double amount;
+
     private Long showtime_id;
 
     private Long customer_id;

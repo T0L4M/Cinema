@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "tb_bookings")
 public class Booking extends BaseEntity {
-
+      private double amount;
       private String seatBooking;
       private int quantity;
 

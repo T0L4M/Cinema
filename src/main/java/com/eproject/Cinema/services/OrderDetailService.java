@@ -52,9 +52,8 @@ public class OrderDetailService {
             return false;
       }
 
-      // public List<OrderDetail> findByOrderIdAndProductId(Long orderId, Long
-      // productId) {
-      // return _orderDetailRepository.findByOrderIdAndProductId(orderId, productId);
+      public OrderDetail findByOrderIdAndProductId(Long orderId, Long productId) {
+            return _orderDetailRepository.findByOrderIdAndProductId(orderId, productId);
 
-      // }
+      }
 }

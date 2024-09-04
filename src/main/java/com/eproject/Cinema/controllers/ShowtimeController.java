@@ -53,11 +53,6 @@ public class ShowtimeController extends BaseController {
                   if (br.hasErrors()) {
                         return _httpResponse.unprocessable(getErrors(br));
                   }
-                  //validate
-                  // if (_showtimeService.validate(showtimeDTO)) {
-                  //       return _httpResponse.error();
-                        
-                  // }
 
                   Movie movie = _movieService.detail(showtimeDTO.getMovie_id());
                   Auditoria audi = _auditoriaService.detail(showtimeDTO.getAuditoria_id());
@@ -96,7 +91,6 @@ public class ShowtimeController extends BaseController {
       public ResponseEntity<?> getRoom(@PathVariable Long id) {
             return _httpResponse.success(_showtimeService.getByRoom(id));
       }
-
 
       @GetMapping("/show")
       public ResponseEntity<?> getSortDateList() {
@@ -149,6 +143,4 @@ public class ShowtimeController extends BaseController {
       // return _httpResponse.failure();
       // }
 
-     
-      
 }

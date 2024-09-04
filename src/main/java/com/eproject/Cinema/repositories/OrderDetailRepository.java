@@ -15,8 +15,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> 
       // List<OrderDetail> findByOrderIdAndProductId(@Nullable Long orderId, @Nullable
       // Long productId);
 
-      // @Query("SELECT od FROM OrderDetail od WHERE od.order.id = :orderId AND
-      // od.product.id = :productId")
-      // List<OrderDetail> findByOrderIdAndProductId(@Param("orderId") Long orderId,
-      // @Param("productId") Long productId);
+      @Query("SELECT od FROM OrderDetail od WHERE od.order.id = :orderId AND od.product.id = :productId")
+      public OrderDetail findByOrderIdAndProductId(@Param("orderId") Long orderId,
+                  @Param("productId") Long productId);
 }

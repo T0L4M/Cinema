@@ -12,10 +12,10 @@ import com.eproject.Cinema.entities.OrderDetail;
 
 @Component
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {
-      // List<OrderDetail> findByOrderIdAndProductId(@Nullable Long orderId, @Nullable
-      // Long productId);
+      public List<OrderDetail> findByOrderId(Long orderId);
 
       @Query("SELECT od FROM OrderDetail od WHERE od.order.id = :orderId AND od.product.id = :productId")
       public OrderDetail findByOrderIdAndProductId(@Param("orderId") Long orderId,
                   @Param("productId") Long productId);
+
 }

@@ -84,6 +84,11 @@ public class BookingController extends BaseController {
             return _httpResponse.success(_bookingService.getAllByShowtimeId(id));
       }
 
+      @GetMapping("/byCustomer/{id}")
+      public ResponseEntity<?> getLatestByCustomerId(@PathVariable Long id) {
+            return _httpResponse.success(_bookingService.getLatestByCustomerId(id));
+      }
+
       @GetMapping("detail/{id}")
       public ResponseEntity<?> detail(@PathVariable Long id) {
             Booking book = _bookingService.detail(id);
@@ -122,6 +127,15 @@ public class BookingController extends BaseController {
       @DeleteMapping("delete/{id}")
       public ResponseEntity<?> delBook(@PathVariable Long id) {
             boolean status = _bookingService.delete(id);
+            if (status) {
+                  return _httpResponse.success();
+            }
+            return _httpResponse.failure();
+      }
+
+      @DeleteMapping("deleteShowtimeIdAndCustomerId/{showId}/{cusId}")
+      public ResponseEntity<?> delByShowtimeIdAndCustomerId(@PathVariable Long showId, @PathVariable Long cusId) {
+            boolean status = _bookingService.deleteByShowtimeIdAndCustomerId(showId, cusId);
             if (status) {
                   return _httpResponse.success();
             }

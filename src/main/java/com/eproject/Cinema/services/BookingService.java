@@ -53,7 +53,22 @@ public class BookingService {
             return false;
       }
 
+      public Booking getLatestByCustomerId(Long id) {
+            List<Booking> ds = _bookingRepository.findByCustomerId(id);
+            return ds.get(ds.size() - 1);
+      }
+
       public List<Booking> getAllByShowtimeId(Long showtimeId) {
             return _bookingRepository.findByShowtimeId(showtimeId);
+      }
+
+      public boolean deleteByShowtimeIdAndCustomerId(Long showId, Long cusId) {
+            List<Booking> ds = _bookingRepository.findByShowtimeIdAndCustomerId(showId, cusId);
+            boolean rs = false;
+            if (ds.size() > 0) {
+                  Booking del = ds.get(ds.size() - 1);
+                  rs = delete(del.getId());
+            }
+            return rs;
       }
 }

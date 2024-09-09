@@ -56,4 +56,21 @@ public class OrderDetailService {
             return _orderDetailRepository.findByOrderIdAndProductId(orderId, productId);
 
       }
+
+      public boolean deleteOrderId(Long orderId) {
+            try {
+                  List<OrderDetail> ds = _orderDetailRepository.findByOrderId(orderId);
+
+                  if (!ds.isEmpty()) {
+                        for (OrderDetail orderDetail : ds) {
+                              _orderDetailRepository.delete(orderDetail);
+                        }
+                        return true;
+                  }
+            } catch (Exception e) {
+                  e.printStackTrace();
+            }
+
+            return false;
+      }
 }

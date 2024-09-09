@@ -5,6 +5,8 @@ import java.util.List;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,11 +23,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "tb_orders")
 public class Order extends BaseEntity {
-      
+
       private double amount;
 
       @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, mappedBy = "order")
       @Transient
+      @JsonIgnore
       @OnDelete(action = OnDeleteAction.CASCADE)
       private List<OrderDetail> orderDetails;
 }

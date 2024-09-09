@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,8 @@ import com.eproject.Cinema.services.ProductService;
 import com.eproject.Cinema.services.ShowtimeService;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/orders")
@@ -113,6 +117,23 @@ public class OrderController extends BaseController {
             }
             return _httpResponse.failure();
 
+      }
+
+      @DeleteMapping("deleteByDetail/{id}")
+      public ResponseEntity<?> deleteByDetail(@PathVariable Long id) {
+            boolean status = _orderDetailService.deleteOrderId(id);
+            if (status) {
+                  boolean st = _orderService.delete(id);
+                  if (st) {
+                        return _httpResponse.success();
+                  }
+            }
+            return _httpResponse.failure();
+      }
+
+      @GetMapping()
+      public ResponseEntity<?> getList() {
+            return _httpResponse.success(_orderService.getAll());
       }
 
 }

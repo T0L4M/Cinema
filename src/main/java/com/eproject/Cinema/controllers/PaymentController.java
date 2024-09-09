@@ -47,19 +47,22 @@ public class PaymentController extends BaseController {
                   if (br.hasErrors()) {
                         return _httpResponse.unprocessable(getErrors(br));
                   }
-                  Payment rs;
+
                   Booking booking = _bookingService.detail(Long.parseLong(paymentDTO.getBookingId()));
+
                   if (booking != null) {
-                        if (!paymentDTO.getOrderId().isEmpty()) {
-                              Order order = _orderService.detail(Long.parseLong(paymentDTO.getOrderId()));
-                              rs = _paymentService.create(new Payment(paymentDTO.getAmount(), booking, order));
-                        } else {
-                              rs = _paymentService.create(new Payment(paymentDTO.getAmount(), booking, null));
-                        }
-                        if (rs != null) {
-                              return _httpResponse.success(rs);
+                        Order order = !paymentDTO.getOrderId().isEmpty()
+                                    ? _orderService.detail(Long.parseLong(paymentDTO.getOrderId()))
+                                    : null;
+                        System.out.println("ORRDERRRRR: " + order);
+                        Payment payment = new Payment(paymentDTO.getAmount(), booking, order);
+                        Payment savedPayment = _paymentService.create(payment);
+
+                        if (savedPayment != null) {
+                              return _httpResponse.success(savedPayment);
                         }
                   }
+
                   return _httpResponse.failure();
             } catch (Exception e) {
                   return _httpResponse.failure("HONG");

@@ -10,4 +10,9 @@ import com.eproject.Cinema.entities.Booking;
 @Component
 public interface BookingRepository extends JpaRepository<Booking, Long> {
       public List<Booking> findByShowtimeId(Long showtimeId);
+
+      public List<Booking> findByCustomerId(Long customerId);
+
+      public List<Booking> findByShowtimeIdAndCustomerId(Long showId, Long cusId);
+
 }

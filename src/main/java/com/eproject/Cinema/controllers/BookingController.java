@@ -79,6 +79,11 @@ public class BookingController extends BaseController {
             return _httpResponse.success(_bookingService.getAll());
       }
 
+      @GetMapping("chart")
+      public ResponseEntity<?> getTopMovieChart() {
+            return _httpResponse.success(_bookingService.getTopMovieChart());
+      }
+
       @GetMapping("/byShowtime/{id}")
       public ResponseEntity<?> getListByShowtimeId(@PathVariable Long id) {
             return _httpResponse.success(_bookingService.getAllByShowtimeId(id));

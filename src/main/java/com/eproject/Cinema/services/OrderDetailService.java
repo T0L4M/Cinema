@@ -73,4 +73,12 @@ public class OrderDetailService {
 
             return false;
       }
+
+      public List<OrderDetail> findByOrderId(Long orderId) {
+            return _orderDetailRepository.findByOrderId(orderId);
+      }
+
+      public List<Object> productChart() {
+            return _orderDetailRepository.findProductSummaries();
+      }
 }

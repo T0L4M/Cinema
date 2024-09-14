@@ -71,4 +71,8 @@ public class BookingService {
             }
             return rs;
       }
+
+      public List<Object> getTopMovieChart() {
+            return _bookingRepository.topMovieChart();
+      }
 }

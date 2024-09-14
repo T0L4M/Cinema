@@ -1,11 +1,17 @@
 package com.eproject.Cinema.utils;
 
-
-
 import org.springframework.stereotype.Component;
 
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.mail.BodyPart;
+import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -13,7 +19,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
 
 @Component
 public class MailUtil {
@@ -29,6 +34,7 @@ public class MailUtil {
 
 	/**
 	 * Send mail text
+	 * 
 	 * @param to
 	 * @param subject
 	 * @param body
@@ -63,5 +69,30 @@ public class MailUtil {
 		} catch (MessagingException e) {
 			// Handle exception
 		}
+	}
+
+	public void sendEmailWithAttachment(String to, String subject, String body, DataSource dataSource,
+			String fileName) throws Exception {
+		MimeMessage message = javaMailSender.createMimeMessage();
+
+		MimeMultipart multipart = new MimeMultipart();
+
+		// Phần text của email
+		BodyPart textBodyPart = new MimeBodyPart();
+		textBodyPart.setText(body);
+		multipart.addBodyPart(textBodyPart);
+
+		// Phần đính kèm (hình ảnh)
+		MimeBodyPart attachmentPart = new MimeBodyPart();
+		attachmentPart.setDataHandler(new DataHandler(dataSource));
+		attachmentPart.setFileName(fileName);
+		multipart.addBodyPart(attachmentPart);
+
+		message.setSubject(subject);
+		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+		message.setContent(multipart);
+
+		// Gửi email
+		javaMailSender.send(message);
 	}
 }

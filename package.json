@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "react-zxing": "^2.0.2"
+  }
+}

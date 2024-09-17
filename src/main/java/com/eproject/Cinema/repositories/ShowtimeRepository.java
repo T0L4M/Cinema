@@ -11,12 +11,13 @@ import com.eproject.Cinema.entities.Showtime;
 
 @Component
 public interface ShowtimeRepository extends JpaRepository<Showtime, Long> {
-      @Query("SELECT s FROM Showtime s ORDER BY showtime_date ASC, s.hour.time_from ASC")
+      @Query("SELECT s FROM Showtime s WHERE status = true ORDER BY showtime_date")
       public List<Showtime> sortByDate();
-
 
       @Query("SELECT s FROM Showtime s WHERE s.auditoria.id = :roomId ")
       public List<Showtime> getByRoom(@Param("roomId") Long roomId);
 
-     
+      @Query("SELECT s FROM Showtime s WHERE s.movie.id = :movieId AND s.status = true")
+      public List<Showtime> getByMovie(@Param("movieId") Long movieId);
+
 }

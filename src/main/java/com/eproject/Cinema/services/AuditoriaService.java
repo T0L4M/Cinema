@@ -13,7 +13,6 @@ public class AuditoriaService {
       @Autowired
       AuditoriaRepository _auditoriaRepository;
 
-
       public List<Auditoria> getAll() {
             return _auditoriaRepository.findAll();
       }
@@ -55,28 +54,4 @@ public class AuditoriaService {
             return false;
       }
 
-      public String convertSeats(String seatCodes) {
-            StringBuilder convertedSeats = new StringBuilder();
-            String[] seatList = seatCodes.split(" "); // Split seat codes into an array
-
-            for (String seatCode : seatList) {
-                  if (!isSeatCodeValid(seatCode)) {
-                        continue; // Skip invalid seat codes
-                  }
-
-                  char rowChar = seatCode.charAt(0);
-                  int row = Character.getNumericValue(seatCode.charAt(1)); // Assuming row is the second character
-                  convertedSeats.append(rowChar).append(row).append(" "); // Convert to "row number-column letter"
-                                                                          // format
-            }
-
-            return convertedSeats.toString().trim();
-      }
-
-      private boolean isSeatCodeValid(String seatCode) {
-            return seatCode.length() == 2 && Character.isDigit(seatCode.charAt(1))
-                        && Character.isLetter(seatCode.charAt(0));
-      }
-
-      
 }

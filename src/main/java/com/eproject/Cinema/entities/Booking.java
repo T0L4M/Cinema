@@ -20,11 +20,11 @@ public class Booking extends BaseEntity {
       private String seatBooking;
       private int quantity;
 
-      @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+      @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
       @JoinColumn(referencedColumnName = "id", name = "showtime_id", nullable = false)
       private Showtime showtime;
 
-      @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+      @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
       @JoinColumn(referencedColumnName = "id", name = "customer_id", nullable = false)
       private User customer;
 }

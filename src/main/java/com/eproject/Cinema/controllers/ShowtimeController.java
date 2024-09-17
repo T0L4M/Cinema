@@ -92,6 +92,11 @@ public class ShowtimeController extends BaseController {
             return _httpResponse.success(_showtimeService.getByRoom(id));
       }
 
+      @GetMapping("/movie/{id}")
+      public ResponseEntity<?> getMovie(@PathVariable Long id) {
+            return _httpResponse.success(_showtimeService.getByMovie(id));
+      }
+
       @GetMapping("/show")
       public ResponseEntity<?> getSortDateList() {
             return _httpResponse.success(_showtimeService.sortByDate());

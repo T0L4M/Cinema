@@ -26,11 +26,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "tb_accounts")
 public class User extends BaseEntity {
-      @Column(name = "user_name")
+      @Column(name = "user_name", unique = true)
       private String userName;
       private String password;
+      @Column(unique = true)
       private String email;
       private boolean gender;
+      @Column(unique = true)
       private String phone;
 
       @Temporal(TemporalType.DATE)

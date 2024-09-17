@@ -61,16 +61,20 @@ public class ShowtimeService {
       public boolean validate(ShowtimeDTO show) {
             List<Showtime> shows = getAll();
             for (Showtime showtime : shows) {
-                if (showtime.getShowtime_date().equals(show.getShowtime_date()) &&
-                    showtime.getAuditoria().getId() == show.getAuditoria_id() &&
-                    showtime.getHour().getId() == show.getHour_id()) {
-                    return true; // Found a match for all conditions, validation failed
-                }
+                  if (showtime.getShowtime_date().equals(show.getShowtime_date()) &&
+                              showtime.getAuditoria().getId() == show.getAuditoria_id() &&
+                              showtime.getHour().getId() == show.getHour_id()) {
+                        return true; // Found a match for all conditions, validation failed
+                  }
             }
             return false; // No match found for all conditions, validation successful
-        }
-        
-        public List<Showtime> getByRoom(Long id) {
+      }
+
+      public List<Showtime> getByRoom(Long id) {
             return _showtimeRepository.getByRoom(id);
+      }
+
+      public List<Showtime> getByMovie(Long id) {
+            return _showtimeRepository.getByMovie(id);
       }
 }

@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
@@ -23,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "tb_auditorias")
 public class Auditoria extends BaseEntity {
+      @Column(unique = true)
       private String name;
       private int colNum;
       private int rowNum;
@@ -33,5 +35,4 @@ public class Auditoria extends BaseEntity {
       @OnDelete(action = OnDeleteAction.CASCADE)
       private List<Showtime> showtime;
 
-      
 }

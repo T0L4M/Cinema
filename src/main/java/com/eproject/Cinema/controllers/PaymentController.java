@@ -73,7 +73,8 @@ public class PaymentController extends BaseController {
                                           BarcodeFormat.QR_CODE, 200, 200);
 
                               boolean rs = _paymentService.sendQrCodetoMail(booking.getCustomer().getEmail(),
-                                          MatrixToImageWriter.toBufferedImage(bitMatrix), booking.getSeatBooking(),
+                                          MatrixToImageWriter.toBufferedImage(bitMatrix),
+                                          _bookingService.convertSeats(booking.getSeatBooking()),
                                           show,
                                           savedPayment.getAmount());
                               if (rs) {

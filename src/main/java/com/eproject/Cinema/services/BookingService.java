@@ -75,4 +75,30 @@ public class BookingService {
       public List<Object> getTopMovieChart() {
             return _bookingRepository.topMovieChart();
       }
+
+      public String convertSeats(String seatCodes) {
+            StringBuilder convertedSeats = new StringBuilder();
+            String[] seatList = seatCodes.split(" ");
+
+            for (String seatCode : seatList) {
+                  if (!isValidSeatCode(seatCode)) {
+                        continue; // Skip invalid seat codes
+                  }
+
+                  String[] parts = seatCode.split("x");
+                  int row = Integer.parseInt(parts[0]);
+                  int column = Integer.parseInt(parts[1]);
+
+                  char rowChar = (char) ('A' + row - 1);
+                  convertedSeats.append(rowChar).append(column).append(", ");
+            }
+
+            return convertedSeats.toString().trim();
+      }
+
+      private boolean isValidSeatCode(String seatCode) {
+            return seatCode.contains("x") && // Check for "x" separator
+                        Character.isDigit(seatCode.charAt(0)) && // Check if first character is a digit
+                        Character.isDigit(seatCode.charAt(seatCode.length() - 1)); // Check if last character is a digit
+      }
 }

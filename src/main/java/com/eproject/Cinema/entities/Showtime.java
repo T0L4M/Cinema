@@ -33,15 +33,15 @@ public class Showtime extends BaseEntity {
       @Temporal(TemporalType.DATE)
       private Date showtime_date;
 
-      @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+      @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
       @JoinColumn(referencedColumnName = "id", name = "movie_id", nullable = false)
       private Movie movie;
 
-      @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+      @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
       @JoinColumn(referencedColumnName = "id", name = "auditoria_id", nullable = false)
       private Auditoria auditoria;
 
-      @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+      @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
       @JoinColumn(referencedColumnName = "id", name = "hour_id", nullable = false)
       private Hour hour;
 

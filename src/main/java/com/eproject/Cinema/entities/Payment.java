@@ -18,11 +18,11 @@ import lombok.NoArgsConstructor;
 public class Payment extends BaseEntity {
       private double amount;
 
-      @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+      @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
       @JoinColumn(referencedColumnName = "id", name = "booking_id", nullable = false)
       private Booking booking;
 
-      @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+      @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
       @JoinColumn(referencedColumnName = "id", name = "order_id", nullable = true)
       private Order order;
 }

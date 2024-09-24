@@ -74,7 +74,19 @@ public class ShowtimeService {
             return _showtimeRepository.getByRoom(id);
       }
 
-      public List<Showtime> getByMovie(Long id) {
-            return _showtimeRepository.getByMovie(id);
+      public boolean validateNewShowtime(Showtime show) {
+            List<Showtime> showtimes = getAll();
+            boolean rs = true;
+            for (Showtime item : showtimes) {
+                  if (show.getShowtime_date().compareTo(item.getShowtime_date()) == 0
+                              && show.getAuditoria().getId() == item.getAuditoria().getId()) {
+                        if (show.getHour().getTime_from().before(item.getTime_to())) {
+                              rs = false;
+                              break;
+                        }
+                  }
+            }
+
+            return rs;
       }
 }

@@ -1,5 +1,8 @@
 package com.eproject.Cinema.controllers;
 
+import java.sql.Time;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,10 +65,17 @@ public class ShowtimeController extends BaseController {
                         Showtime show = new Showtime();
                         show.setShowtime_date(showtimeDTO.getShowtime_date());
                         show.setHour(hour);
+                        LocalTime timeFrom = hour.getTime_from().toLocalTime();
+                        Duration duration = Duration.ofMinutes(movie.getDuration() + 30);
+                        LocalTime timeAfter = timeFrom.plus(duration);
+                        show.setTime_to(Time.valueOf(timeAfter));
                         show.setAuditoria(audi);
                         show.setMovie(movie);
                         show.setStatus(showtimeDTO.getStatus());
+                        if (!_showtimeService.validateNewShowtime(show)) {
+                              return _httpResponse.failure("INVALID CREATING SHOWTIME");
 
+                        }
                         Showtime rs = _showtimeService.create(show);
 
                         if (rs != null) {
@@ -77,6 +87,7 @@ public class ShowtimeController extends BaseController {
                   List<ErrorDTO> errors = new ArrayList();
                   errors.add(new ErrorDTO("code", "Invalid category"));
                   return _httpResponse.unprocessable(errors);
+
             } catch (Exception e) {
                   return _httpResponse.failure();
             }
@@ -90,11 +101,6 @@ public class ShowtimeController extends BaseController {
       @GetMapping("/room/{id}")
       public ResponseEntity<?> getRoom(@PathVariable Long id) {
             return _httpResponse.success(_showtimeService.getByRoom(id));
-      }
-
-      @GetMapping("/movie/{id}")
-      public ResponseEntity<?> getMovie(@PathVariable Long id) {
-            return _httpResponse.success(_showtimeService.getByMovie(id));
       }
 
       @GetMapping("/show")
@@ -122,6 +128,7 @@ public class ShowtimeController extends BaseController {
                   Auditoria audi = _auditoriaService.detail(showtimeDTO.getAuditoria_id());
                   Hour hour = _hourService.detail(showtimeDTO.getHour_id());
                   Showtime show = _showtimeService.detail(id);
+
                   if (show != null) {
                         show.setShowtime_date(showtimeDTO.getShowtime_date());
                         show.setStatus(showtimeDTO.getStatus());

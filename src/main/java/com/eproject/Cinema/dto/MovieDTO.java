@@ -1,18 +1,8 @@
 package com.eproject.Cinema.dto;
 
-import java.sql.Date;
-
 import org.springframework.web.multipart.MultipartFile;
 
-import com.eproject.Cinema.entities.Showtime;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +19,8 @@ public class MovieDTO {
       private String director;
 
       private String casts;
+
+      private int duration;
 
       @NotEmpty(message = "Genre is required!")
       private String genre;

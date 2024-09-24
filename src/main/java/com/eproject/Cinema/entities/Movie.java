@@ -17,7 +17,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Transient;
-import jakarta.validation.constraints.Future;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,7 +36,7 @@ public class Movie extends BaseEntity {
       private String poster;
       private String status; // Value as: showing, coming, not showing
       private String trailer;
-      // @DateTimeFormat(pattern = "dd/MM/yyyy")
+      private int duration;
       @Temporal(TemporalType.DATE)
       private Date release_date;
 

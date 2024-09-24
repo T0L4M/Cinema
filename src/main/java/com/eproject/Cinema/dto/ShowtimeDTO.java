@@ -1,6 +1,8 @@
 package com.eproject.Cinema.dto;
 
 import java.sql.Date;
+import java.sql.Time;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,8 @@ public class ShowtimeDTO {
   private Long auditoria_id;
 
   private Long hour_id;
+
+  private Time time_to;
 
   public boolean getStatus() {
     return this.status;

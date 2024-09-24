@@ -36,10 +36,6 @@ public class HourController extends BaseController {
                   if (br.hasErrors()) {
                         return _httpResponse.unprocessable(getErrors(br));
                   }
-                  if (hour.getTime_from().compareTo(hour.getTime_to()) >= 0) {
-                        // Return a response indicating the error
-                        return _httpResponse.failure("time_from must be before time_to");
-                  }
                   Hour hr = new Hour();
                   BeanUtils.copyProperties(hour, hr);
                   Hour rs = _hourService.create(hr);

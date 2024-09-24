@@ -31,10 +31,6 @@ public class Hour extends BaseEntity {
       @JsonFormat(pattern = "HH:mm:ss")
       private Time time_from;
 
-      @Temporal(TemporalType.TIME)
-      @JsonFormat(pattern = "HH:mm:ss")
-      private Time time_to;
-
       private double price;
 
       @OneToMany(mappedBy = "hour", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

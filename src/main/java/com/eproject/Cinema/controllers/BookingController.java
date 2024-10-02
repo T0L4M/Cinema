@@ -103,6 +103,15 @@ public class BookingController extends BaseController {
             return _httpResponse.failure();
       }
 
+      @GetMapping("findByShowtimeIdAndUserId/{showId}/{cusId}")
+      public ResponseEntity<?> findByShowtimeIdAndUserId(@PathVariable Long showId, @PathVariable Long cusId) {
+            Booking book = _bookingService.findByShowtimeIdAndCustomerId(showId, cusId);
+            if (book != null) {
+                  return _httpResponse.success(book);
+            }
+            return _httpResponse.failure();
+      }
+
       @PutMapping("edit/{id}")
       public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody BookingDTO bookingDTO,
                   BindingResult br) {

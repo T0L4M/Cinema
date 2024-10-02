@@ -1,5 +1,8 @@
 package com.eproject.Cinema.services;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,11 +77,16 @@ public class ShowtimeService {
             return _showtimeRepository.getByRoom(id);
       }
 
+      public List<Showtime> getByMovie(Long id) {
+            return _showtimeRepository.getByMovie(id);
+      }
+
       public boolean validateNewShowtime(Showtime show) {
             List<Showtime> showtimes = getAll();
             boolean rs = true;
             for (Showtime item : showtimes) {
-                  if (show.getShowtime_date().compareTo(item.getShowtime_date()) == 0
+                  System.out.print("check " + (show.getAuditoria().getId() == item.getAuditoria().getId()));
+                  if (show.getShowtime_date().toString().equals(item.getShowtime_date().toString())
                               && show.getAuditoria().getId() == item.getAuditoria().getId()) {
                         if (show.getHour().getTime_from().before(item.getTime_to())) {
                               rs = false;
@@ -86,7 +94,16 @@ public class ShowtimeService {
                         }
                   }
             }
-
             return rs;
+      }
+
+      public List<Showtime> findPastShowtimes() {
+            LocalDate today = LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDate();
+            List<Showtime> pastShowtimes = _showtimeRepository.findPastShowtimes(today);
+            for (Showtime showtime : pastShowtimes) {
+                  showtime.setStatus(false);
+            }
+            _showtimeRepository.saveAll(pastShowtimes);
+            return pastShowtimes;
       }
 }

@@ -1,5 +1,7 @@
 package com.eproject.Cinema.controllers;
 
+import java.io.UnsupportedEncodingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -46,6 +48,12 @@ public class PaymentController extends BaseController {
       @Autowired
       HttpResponse _httpResponse;
 
+      @PostMapping("mobileVnpay")
+      public ResponseEntity<?> createpaymentVnpay2(@RequestBody PaymentDTO payment)
+                  throws UnsupportedEncodingException {
+            return _httpResponse.success(_paymentService.createpaymentVnpay2(payment));
+      }
+
       @PostMapping()
       public ResponseEntity<?> create(@Valid @RequestBody PaymentDTO paymentDTO, BindingResult br) {
             try {
@@ -78,7 +86,7 @@ public class PaymentController extends BaseController {
                                           show,
                                           savedPayment.getAmount());
                               if (rs) {
-                                    return _httpResponse.success();
+                                    return _httpResponse.success(savedPayment);
                               }
                               return _httpResponse.failure();
                         }
@@ -93,6 +101,11 @@ public class PaymentController extends BaseController {
       @GetMapping()
       public ResponseEntity<?> getList() {
             return _httpResponse.success(_paymentService.getAll());
+      }
+
+      @GetMapping("/byCustomer/{id}")
+      public ResponseEntity<?> getByCustomerId(@PathVariable Long id) {
+            return _httpResponse.success(_paymentService.getByCustomerId(id));
       }
 
       @GetMapping("chart")

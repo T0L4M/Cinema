@@ -103,7 +103,7 @@ public class AccountService {
             try {
                   Authentication authentication = authenticationManager
                               .authenticate(new UsernamePasswordAuthenticationToken(acc.getEmail(),
-                              acc.getPassword()));
+                                          acc.getPassword()));
                   SecurityContextHolder.getContext().setAuthentication(authentication);
 
                   String user = authentication.getName();

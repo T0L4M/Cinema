@@ -34,7 +34,8 @@ public class MailVerification {
     public boolean sendPasstoEmail(String email, String password) {
         String body = "";
         body += "Hi guy, \n";
-        body += "Please using password for login your account, \n";
+        body += "The support team received your request to reset your password. \n";
+        body += "Please use below password for signing in your account, \n";
         body += password + "\n";
         body += "\n Thanks you,\n";
         mailUtil.sendEmail(email, subject, body);
@@ -45,7 +46,7 @@ public class MailVerification {
             double amounts) {
 
         String body = "";
-        body += "Chào bạn, \n";
+        body += "Hi guy, \n";
         body += "Bạn thanh toán xong rồi này, \n";
         body += "Thông tin vé:  \n";
         body += "Số ghế:" + seats + "\n";

@@ -30,6 +30,11 @@ public class OrderService {
             return _orderRepository.findById(id).get();
       }
 
+      public Order getLatestOrder() {
+            List<Order> list = getAll();
+            return list.get(list.size() - 1);
+      }
+
       public Order update(Order order) {
             try {
                   return _orderRepository.save(order);

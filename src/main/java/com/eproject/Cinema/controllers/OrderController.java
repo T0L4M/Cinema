@@ -136,4 +136,13 @@ public class OrderController extends BaseController {
             return _httpResponse.success(_orderService.getAll());
       }
 
+      @GetMapping("latest")
+      public ResponseEntity<?> getLatestOrder() {
+            Order order = _orderService.getLatestOrder();
+            if (order != null) {
+                  return _httpResponse.success(order);
+            }
+            return _httpResponse.failure();
+      }
+
 }

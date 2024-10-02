@@ -103,6 +103,11 @@ public class ShowtimeController extends BaseController {
             return _httpResponse.success(_showtimeService.getByRoom(id));
       }
 
+      @GetMapping("/movie/{id}")
+      public ResponseEntity<?> getMovie(@PathVariable Long id) {
+            return _httpResponse.success(_showtimeService.getByMovie(id));
+      }
+
       @GetMapping("/show")
       public ResponseEntity<?> getSortDateList() {
             return _httpResponse.success(_showtimeService.sortByDate());
@@ -146,13 +151,18 @@ public class ShowtimeController extends BaseController {
             return _httpResponse.failure();
       }
 
-      // @DeleteMapping("delete/{id}")
-      // public ResponseEntity<?> delAudi(@PathVariable Long id) {
-      // boolean status = _showtimeService.delete(id);
-      // if (status) {
-      // return _httpResponse.success();
-      // }
-      // return _httpResponse.failure();
-      // }
+      @PutMapping("modify_status")
+      public ResponseEntity<?> modifyStatus() {
+            try {
+                  List<Showtime> rs = _showtimeService.findPastShowtimes();
+                  if (rs != null) {
+                        return _httpResponse.success(rs);
+                  }
+
+            } catch (Exception e) {
+                  return _httpResponse.failure();
+            }
+            return _httpResponse.failure();
+      }
 
 }

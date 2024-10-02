@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eproject.Cinema.dto.AccountDTO;
 import com.eproject.Cinema.dto.LoginDTO;
+import com.eproject.Cinema.dto.NewPasswordDTO;
 import com.eproject.Cinema.entities.User;
-import com.eproject.Cinema.entities.Verification;
-import com.eproject.Cinema.filter.PasswordGenerator;
 import com.eproject.Cinema.request.ForgotRequest;
 import com.eproject.Cinema.request.MailRequest;
 import com.eproject.Cinema.response.HttpResponse;
@@ -99,6 +98,27 @@ public class AccountController extends BaseController {
                   User account = _accountService.detail(id);
                   if (account != null) {
                         BeanUtils.copyProperties(accountDTO, account);
+                        User rs = _accountService.update(account);
+                        if (rs != null) {
+                              return _httpResponse.success(rs);
+                        }
+                  }
+            } catch (Exception e) {
+                  return _httpResponse.failure();
+            }
+            return _httpResponse.failure();
+      }
+
+      @PutMapping("changePassword")
+      public ResponseEntity<?> changePasswordWithEmail(@Valid @RequestBody NewPasswordDTO accountDTO,
+                  BindingResult br) {
+            try {
+                  if (br.hasErrors()) {
+                        return _httpResponse.unprocessable(getErrors(br));
+                  }
+                  User account = _accountService.getByEmail(accountDTO.getEmail());
+                  if (account != null) {
+                        account.setPassword(accountDTO.getNewPassword());
                         User rs = _accountService.update(account);
                         if (rs != null) {
                               return _httpResponse.success(rs);

@@ -29,8 +29,6 @@ public class VerificationService {
     @Autowired
     AccountService _accountService;
 
-    
-
     public boolean create(String email) {
         try {
             Verification verification = new Verification();
@@ -67,7 +65,7 @@ public class VerificationService {
                         return true;
                     }
                 }
-                
+
             }
             return false;
         } catch (Exception e) {

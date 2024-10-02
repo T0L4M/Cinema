@@ -1,7 +1,7 @@
 package com.eproject.Cinema.entities;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.hibernate.annotations.OnDelete;
@@ -38,7 +38,7 @@ public class Showtime extends BaseEntity {
       private boolean status;
 
       @Temporal(TemporalType.DATE)
-      private Date showtime_date;
+      private LocalDate showtime_date;
 
       @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
       @JoinColumn(referencedColumnName = "id", name = "movie_id", nullable = false)

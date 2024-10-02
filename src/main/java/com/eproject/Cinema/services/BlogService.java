@@ -43,4 +43,17 @@ public class BlogService {
             }
             return false;
       }
+
+      public List<Blog> showNewBlogs() {
+            try {
+                  return _blogRepository.showNewBlogsWithStatus();
+            } catch (Exception e) {
+                  e.printStackTrace();
+            }
+            return null;
+      }
+
+      public List<Blog> findByStatus() {
+            return _blogRepository.findByStatus(true);
+      }
 }

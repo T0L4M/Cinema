@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,9 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.eproject.Cinema.dto.BlogDTO;
-import com.eproject.Cinema.dto.MovieDTO;
 import com.eproject.Cinema.entities.Blog;
-import com.eproject.Cinema.entities.Movie;
 import com.eproject.Cinema.response.HttpResponse;
 import com.eproject.Cinema.services.BlogService;
 
@@ -48,9 +47,13 @@ public class BlogController extends BaseController {
                         return _httpResponse.unprocessable(getErrors(br));
                   }
                   Blog blog = new Blog();
+
                   if (!file.isEmpty()) {
+                        // System.out.println("file:" + file);
                         input.setThumbnail(file);
+                        // System.out.println("input:" + input.getThumbnail());
                         Path path = Paths.get(uploadDir + "/blogs");
+
                         if (!Files.exists(path)) {
                               Files.createDirectories(path);
                         }
@@ -59,8 +62,8 @@ public class BlogController extends BaseController {
                         Path filePath = path.resolve(fileName);
                         Files.copy(input.getThumbnail().getInputStream(), filePath);
                         BeanUtils.copyProperties(input, blog);
-                        System.out.println("BLOG:" + blog);
                         blog.setThumbnail(fileName);
+                        // System.out.println("BLOG:" + blog);
                         Blog rs = _blogService.create(blog);
 
                         if (rs != null) {
@@ -76,5 +79,24 @@ public class BlogController extends BaseController {
       @GetMapping()
       public ResponseEntity<?> getList() {
             return _httpResponse.success(_blogService.getAll());
+      }
+
+      @GetMapping("/status")
+      public ResponseEntity<?> showNewBlogs() {
+            return _httpResponse.success(_blogService.showNewBlogs());
+      }
+
+      @GetMapping("/on")
+      public ResponseEntity<?> showingBlog() {
+            return _httpResponse.success(_blogService.findByStatus());
+      }
+
+      @GetMapping("detail/{id}")
+      public ResponseEntity<?> detail(@PathVariable Long id) {
+            Blog blog = _blogService.detail(id);
+            if (blog != null) {
+                  return _httpResponse.success(blog);
+            }
+            return _httpResponse.failure();
       }
 }

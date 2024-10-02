@@ -1,7 +1,7 @@
 package com.eproject.Cinema.dto;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class ShowtimeDTO {
   private boolean status;
 
-  private Date showtime_date;
+  private LocalDate showtime_date;
 
   private Long movie_id;
 

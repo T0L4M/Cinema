@@ -72,6 +72,14 @@ public class BookingService {
             return rs;
       }
 
+      public Booking findByShowtimeIdAndCustomerId(Long showId, Long cusId) {
+            List<Booking> ds = _bookingRepository.findByShowtimeIdAndCustomerId(showId, cusId);
+            if (ds.size() > 0) {
+                  return ds.get(ds.size() - 1);
+            }
+            return null;
+      }
+
       public List<Object> getTopMovieChart() {
             return _bookingRepository.topMovieChart();
       }
